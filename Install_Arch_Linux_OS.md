@@ -140,3 +140,25 @@ Lệnh này định dạng phân vùng /dev/sda2 và đánh dấu đây là phâ
 mkfs.ext4 /dev/sda3
 ```
 Lệnh này định dạng phân vùng /dev/sda3 theo loại EXT4 và đánh dấu đây là phân vùng Root.
+- Sau khi việc định dạng phân vùng hoàn tất với các phân vùng sda1, sda2, sda3 phù hợp, ta sẽ vào cách để gắn phân vùng vào cây thư mục của USB.
+- Đối với phân vùng Root (sda3) ta sẽ gắn bằng lệnh như sau:
+```
+mount /dev/sda3 /mnt
+```
+Lệnh này có tác dụng gắn phân vùng Root vào thư mục /mnt. Tức là khi bạn dùng lệnh *cd /mnt* bạn sẽ thấy các thư mục và tệp dữ liệu nằm trong phân vùng Root (sda3), ví dụ /mnt/usr, /mnt/bin, /mnt/home, /mnt/etc,...
+- Đối với phân vùng Boot (sda1) ta sẽ gắn bằng các lệnh như sau:
+```
+mkdir -p /mnt/boot
+```
+Lệnh này có tác dụng tạo thư mục boot trong mục /mnt. Sau đó mới thực hiện lệnh phía dưới:
+```
+mount /dev/sda1 /mnt/boot
+```
+Lệnh này có tác dụng gắn phân vùng Boot vào thư mục /mnt/boot. Tức là khi bạn *cd /mnt/boot* bạn sẽ thấy toàn bộ các thư mục và tệp dữ liệu trong phân vùng Boot (sda1).
+> Lưu ý: Bản thân mọi thư mục và tệp nằm trong mục /mnt/boot thì *CHÚNG ĐỀU NẰM TRONG PHÂN VÙNG BOOT (sda1)*. Còn *BẢN THÂN* chính cái thư mục /mnt/boot nó chỉ là thư mục trung gian ánh xạ vào phân vùng Boot, cho nên bản thân cái thư mục /mnt/boot nó thuộc phân vùng Root (sda3), *NHƯNG* mọi thư mục con và tệp con trong chính thư mục /mnt/boot thì nó đều thuộc *PHÂN VÙNG BOOT* chứ không phải phân vùng Root.
+
+- Tiếp theo ta sẽ kích hoạt phân vùng Swap (sda2) bằng lệnh:
+```
+swapon /dev/sda2
+```
+> Bạn có thể tắt bằng việc dùng lệnh **swapoff /dev/sda2** nếu không thích dùng RAM Ảo.
