@@ -255,4 +255,9 @@ Khi vào tệp cấu hình hãy tìm dòng ***# %wheel ALL=(ALL:ALL) ALL*** và 
 ```
 sudo pacman -S gnome gnome-extra gdm firefox
 ```
-Khi *ENTER* sẽ bắt nhập mật khẩu cá nhân bạn, sau khi gõ mật khẩu xong, nếu trong quá trình cài đặt hỏi gi thì cứ nhấn phím *ENTER* và chờ tải các gói giao diện màn hình GNOME và trình duyệt Firefox. Sau đó khởi động lại máy tính và tận hưởng thành quả!
+Khi *ENTER* sẽ bắt nhập mật khẩu cá nhân bạn, sau khi gõ mật khẩu xong, nếu trong quá trình cài đặt hỏi gi thì cứ nhấn phím *ENTER* và chờ tải các gói giao diện màn hình GNOME và trình duyệt Firefox.
+Khi cài xong gõ lệnh sau để bật dịch vụ gdm:
+```
+sudo systemctl enable gdm
+```
+Sau đó khởi động lại máy tính và tận hưởng thành quả!
