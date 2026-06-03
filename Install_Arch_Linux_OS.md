@@ -179,7 +179,7 @@ arch-chroot /mnt
 ```
 - Sau khi chúng ta đã vào hệ điều hành Arch Linux, việc đầu tiên là đồng bộ giờ hệ thống chuẩn, bạn thực hiện lệnh sau:
 ```
-ln /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+ln -sf /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
 ```
 Lệnh này có tác dụng tạo một đường dẫn từ tệp localtime đến tệp Ho_Chi_Minh để điều chỉnh múi giờ chính xác.
 - Để đồng bộ thời gian phần mềm và phần cứng, gõ lệnh:
