@@ -219,7 +219,7 @@ Sau đó gõ lệnh sau để nhận diện các hệ điều hành và tạo th
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 5. Thoát về môi trường USB và chuẩn bị quan trọng!
-- Khi làm xong các việc ở danh sách 4, bạn gõ lệnh ***exit** để thoát về môi trường USB, sau đó gõ lệnh sau để gỡ toàn bộ các gắn:
+- Khi làm xong các việc ở danh sách 4, bạn gõ lệnh ***exit*** để thoát về môi trường USB, sau đó gõ lệnh sau để gỡ toàn bộ các gắn:
 ```
 umount -R /mnt
 ```
