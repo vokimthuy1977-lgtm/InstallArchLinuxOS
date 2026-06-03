@@ -166,7 +166,7 @@ swapon /dev/sda2
 4. Cài đặt gói cần thiết và bước chân vào hệ điều hành Arch Linux thực thụ
 - Điều đầu tiêu sau khi gắn các phân vùng vào cây thư mục là bạn cần tải các gói cần thiết và là lõi của Arch Linux như sau:
 ```
-pacstrap -K /mnt base linux linux-firmware base-devel vim grub efibootmgr
+pacstrap -K /mnt base linux linux-firmware base-devel vim grub efibootmgr networkmanager
 ```
 Lệnh này tải các gói cần thiết vào phân vùng Root của bạn (Cần Internet, nếu không có Internet hãy quay lại danh sách 2 để xử lí).
 - Sau khi có các gói cần thiết, bạn hãy gõ lệnh sau để tạo một tệp thông tin để bộ khởi động gắn các phân vùng vào đúng vị trí thư mục cây:
@@ -177,3 +177,55 @@ Sau đó gõ lệnh sau để vào hệ điều hành Arch Linux thực thụ:
 ```
 arch-chroot /mnt
 ```
+- Sau khi chúng ta đã vào hệ điều hành Arch Linux, việc đầu tiên là đồng bộ giờ hệ thống chuẩn, bạn thực hiện lệnh sau:
+```
+ln /usr/share/zoneinfo/Asia/Ho_Chi_Minh /etc/localtime
+```
+Lệnh này có tác dụng tạo một đường dẫn từ tệp localtime đến tệp Ho_Chi_Minh để điều chỉnh múi giờ chính xác.
+- Để đồng bộ thời gian phần mềm và phần cứng, gõ lệnh:
+```
+hwclock --systohc
+```
+- Tiếp theo là loại bỏ ghi chú trong tệp /etc/locale.gen UTF-8 bằng cách dùng một trình soạn thảo (ví dụ: *Vim*, *Nano*, ...) vào tệp cấu hình và tìm dòng bạn cần loại bỏ ghi chú và lưu lại bằng cách nhấn phím Esc và gõ **:wq** (Nếu dùng Vim).
+> Có thể mở bằng lệnh ***vim /etc/locale.gen*** để vào.
+- Kế tiếp là gõ lệnh sau để biên dịch lại các thiết lập về ngôn ngữ, quốc gia, bảng mã kí hiệu, đơn vị tiền tệ,... bằng lệnh:
+```
+locale-gen
+```
+Sau đó gõ lệnh sau để tải các gói ngôn ngữ về máy bằng lệnh:
+```
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+```
+- Về cấu hình tên thiết bị bằng cách dùng lệnh:
+```
+echo "localhost" > /etc/hostname
+```
+- Tiếp theo đặt mật khẩu cho tài khoản root của bạn bằng cách gõ lệnh:
+```
+passwd
+```
+Lệnh này sẽ yêu cầu bạn nhập hai lần mật khẩu, sau khi hoàn tất thì tài khoản root của bạn sẽ có mật khẩu an toàn ***(Lưu ý quá trình nhập mật khẩu không hiển thị ra màn hình do cơ chế bảo mật. Hãy yên tâm nhập như bình thường)***
+- Tiếp theo là một việc rất quan trọng là bật dịch vụ trình quản lí mạng, nếu không làm việc này sẽ dẫn đến không có mạng khi rút USB ra khỏi máy tính, thực hiện bật lên bằng lệnh:
+```
+systemctl enable NetworkManager
+```
+Lệnh này có tác dụng mỗi khi mở máy sẽ tự động khởi động dịch vụ NetworkManager ***(Lưu ý bạn cần phải cài gói networkmanager trong bước pacstrap hoặc có thể cài khi vào hệ điều hành bằng cách dùng lệnh pacman -S networkmanager)***
+- Cuối cùng gõ lệnh sau để thực hiện cài bộ khởi động nếu dùng *GRUB* vào phân vùng Boot (sda1) bằng lệnh:
+```
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+```
+Sau đó gõ lệnh sau để nhận diện các hệ điều hành và tạo thực đơn hiển thị khi khởi động máy tính:
+```
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+5. Thoát về môi trường USB và chuẩn bị quan trọng!
+- Khi làm xong các việc ở danh sách 4, bạn gõ lệnh ***exit** để thoát về môi trường USB, sau đó gõ lệnh sau để gỡ toàn bộ các gắn:
+```
+umount -R /mnt
+```
+- Cuối cùng gõ lệnh sau để khởi động lại và nhanh chóng rút USB khỏi thiết bị, tránh tình trạng khởi động vào USB thay vì phân vùng Boot:
+```
+reboot
+```
+> Lưu ý khi gõ lệnh ***reboot*** phải ***nhanh chóng rút USB khỏi thiết bị máy tính ngay lập tức***!
+
