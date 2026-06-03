@@ -229,3 +229,30 @@ reboot
 ```
 > Lưu ý khi gõ lệnh ***reboot*** phải ***nhanh chóng rút USB khỏi thiết bị máy tính ngay lập tức***!
 
+6. Điểm Cuối Cùng
+- Khi rút USB và khởi động lại, bạn sẽ thấy giao diện thực đơn GRUB, hãy chọn Arch Linux và *ENTER*, sau đó đến dòng *<Tên thiết bị> login: _* hãy gõ tên tài khoản root *<Tên thiết bị> login: root* nó sẽ vào dấu nhắc lệnh *root@<Tên thiết bị> # _* sau đó gõ lệnh sau để cập nhật hệ thống:
+```
+pacman -Syu
+```
+Sau đó gõ lệnh sau để tạo tài khoản người dùng:
+```
+useradd -m -G wheel -s /bin/bash <Tên của bạn>
+```
+Sau đó gõ lệnh sau để đặt mật khẩu cho tài khoản người dùng:
+```
+passwd <Tên tài khoản cá nhân của bạn>
+```
+Khi gõ lệnh đó bạn, nó sẽ yêu cầu bạn nhập mật khẩu hai lần ***(Đây là lần nhắc cuối cùng đó là việc gõ mật khẩu sẽ không hiển thị màn hình. Tôi sẽ không nhắc bạn nữa mỗi khi nhập mật khẩu)***
+- Tiếp theo ta cần cấp quyền sudo cho tài khoản cá nhân bằng cách gõ lệnh sau:
+```
+EDITOR=vim visudo
+```
+Nó sẽ vào tệp cấu hình /etc/sudoers.
+> ***Lưu ý quan trọng là không mở bằng lệnh vim /etc/sudoers vì rất nguy hiểm***
+
+Khi vào tệp cấu hình hãy tìm dòng ***# %wheel ALL=(ALL:ALL) ALL*** và xóa dấu *#* phía trước dòng đó để hủy ghi chú. Sau đó lưu lại bằng cách nhấn phím Esc và gõ lệnh *:wq* để lưu và thoát về dấu nhắc lệnh tài khoản root.
+- Sau đó gõ lệnh ***reboot*** để khởi động thiết bị, đến màn hình đăng nhập, gõ tên tài khoản cá nhân của bạn để vào dấu nhắc lệnh của tài khoản cá nhân, sau đó gõ lệnh:
+```
+sudo pacman -S gnome gnome-extra gdm firefox
+```
+Khi *ENTER* sẽ bắt nhập mật khẩu cá nhân bạn, sau khi gõ mật khẩu xong, nếu trong quá trình cài đặt hỏi gi thì cứ nhấn phím *ENTER* và chờ tải các gói giao diện màn hình GNOME và trình duyệt Firefox. Sau đó khởi động lại máy tính và tận hưởng thành quả!
